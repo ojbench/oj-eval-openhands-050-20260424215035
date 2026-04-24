@@ -91,6 +91,9 @@ public:
         liveCount_ = liveCount;
         blankCount_ = blankCount;
         lockedNext_.reset();
+        // At each supply phase, items are refreshed. Clear inventories for both players.
+        players_[0] = PlayInfo{};
+        players_[1] = PlayInfo{};
     }
 
     void reloadItem(int playerId, ItemType item) {
