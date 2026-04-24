@@ -64,8 +64,18 @@ public:
     void useConverter(BulletType topBulletBeforeUse) {
         if (players_[currentPlayer_].converterCount <= 0) throw InvalidOperation();
         --players_[currentPlayer_].converterCount;
-        // Reveal and flip next bullet
-        lockedNext_ = (topBulletBeforeUse == BulletType::Live) ? BulletType::Blank : BulletType::Live;
+        // Reveal and flip next bullet, and adjust counts accordingly
+        if (topBulletBeforeUse == BulletType::Live) {
+            // flip live -> blank
+            --liveCount_;
+            ++blankCount_;
+            lockedNext_ = BulletType::Blank;
+        } else {
+            // flip blank -> live
+            --blankCount_;
+            ++liveCount_;
+            lockedNext_ = BulletType::Live;
+        }
         // Does not consume bullet
     }
 
